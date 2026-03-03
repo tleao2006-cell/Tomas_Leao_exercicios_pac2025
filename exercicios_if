@@ -7,7 +7,7 @@ segundos = segundos_totais % 60
 print(f"{horas} hora(s), {minutos} minuto(s) e {segundos} segundo(s)")
 
 
-# TESTE DO EXERCÍCIO 2
+# EXERCÍCIO 2
 num1 = int(input("Introduz o primeiro número: "))
 num2 = int(input("Introduz o segundo número: "))
 num3 = int(input("Introduz o terceiro número: "))
@@ -17,7 +17,7 @@ print(f"Maior: {maior}")
 print(f"Menor: {menor}")
 
 
-# TESTE DO EXERCÍCIO 3
+# EXERCÍCIO 3
 num1 = int(input("Introduz o primeiro número: "))
 num2 = int(input("Introduz o segundo número: "))
 crescente = sorted([num1, num2])
@@ -26,7 +26,7 @@ print(f"Crescente: {crescente[0]}, {crescente[1]}")
 print(f"Decrescente: {decrescente[0]}, {decrescente[1]}")
 
 
-# TESTE DO EXERCÍCIO 4
+# EXERCÍCIO 4
 saldo = float(input("Introduz o saldo inicial: "))
 cheque = float(input("Introduz o valor do cheque: "))
 
@@ -37,7 +37,7 @@ else:
     print("Cheque não pode ser descontado, saldo insuficiente.")
 
 
-# TESTE DO EXERCÍCIO 5
+# EXERCÍCIO 5
 num1 = int(input("Introduz o primeiro número: "))
 num2 = int(input("Introduz o segundo número: "))
 num3 = int(input("Introduz o terceiro número: "))
@@ -50,7 +50,7 @@ print(f"Crescente: {crescente[0]}, {crescente[1]}, {crescente[2]}")
 print(f"Decrescente: {decrescente[0]}, {decrescente[1]}, {decrescente[2]}")
 
 
-# TESTE DO EXERCÍCIO 6
+# EXERCÍCIO 6
 nome = input("Digite o nome do cliente: ")
 valor_compra = float(input("Coloque o valor da compra: "))
 
@@ -69,7 +69,7 @@ print(f"Desconto: {desconto:.2f}€")
 print(f"Total a pagar: {total_pagar:.2f}€")
 
 
-# TESTE DO EXERCÍCIO 7
+# EXERCÍCIO 7
 nota1 = float(input("Introduz a primeira nota: "))
 nota2 = float(input("Introduz a segunda nota: "))
 nota3 = float(input("Introduz a terceira nota: "))
@@ -83,7 +83,7 @@ else:
     print("Reprovado")
 
 
-# TESTE DO EXERCÍCIO 8
+# EXERCÍCIO 8
 notas = []
 for i in range(10):
     nota = float(input(f"Introduz a nota do aluno {i+1}: "))
@@ -96,7 +96,7 @@ print(f"Média da turma: {media:.2f}")
 print(f"Alunos com nota igual ou acima da média: {acima_ou_igual}")
 
 
-# TESTE DO EXERCÍCIO SWITCH
+# EXERCÍCIO SWITCH
 pares = 0
 impares = 0
 
@@ -111,7 +111,7 @@ print(f"Pares: {pares}")
 print(f"Ímpares: {impares}")
 
 
-# TESTE DO EXERCÍCIO LOOP
+# EXERCÍCIO LOOP
 pares = 0
 impares = 0
 

@@ -1,0 +1,150 @@
+#Tomás Leão -2025138984
+#EXERCÍCIO 1
+dia = input("Introduza o nome do dia da semana: ").strip().lower()
+
+match dia:
+    case "segunda" | "terça" | "quarta" | "quinta" | "sexta":
+        print("Dia útil")
+    case "sábado" | "domingo":
+        print("Fim de semana")
+    case _:
+        print("Dia inválido")
+
+
+# EXERCÍCIO 2
+nota = int(input("Introduza a nota (0-100): "))
+
+match nota:
+    case n if n >= 90:
+        print("Excelente")
+    case n if n >= 70:
+        print("Bom")
+    case n if n >= 50:
+        print("Suficiente")
+    case _:
+        print("Insuficiente")
+
+
+# EXERCÍCIO 3
+pedido = {"tipo": input("Tipo (compra/venda): "), "valor": float(input("Valor: "))}
+
+match pedido["tipo"]:
+    case "compra":
+        print(f"Compra de {pedido['valor']}€")
+    case "venda":
+        print(f"Venda de {pedido['valor']}€")
+    case _:
+        print("Pedido desconhecido")
+
+
+# EXERCÍCIO 4
+valor = eval(input("Introduza um valor: "))
+
+match valor:
+    case int():
+        print("Número inteiro")
+    case float():
+        print("Número decimal")
+    case str() if valor.isdigit():
+        print("String numérica")
+    case str():
+        print("String textual")
+    case list():
+        print("Lista")
+    case _:
+        print("Tipo desconhecido")
+
+# EXERCÍCIO 5
+mensagem = input("Introduza uma mensagem: ").strip().lower()
+
+match mensagem:
+    case "olá" | "bom dia":
+        print("Saudação")
+    case _ if mensagem.endswith("?"):
+        print("Pergunta")
+    case _ if "tchau" in mensagem or "adeus" in mensagem:
+        print("Despedida")
+    case _:
+        print("Mensagem genérica")
+
+
+# EXERCÍCIO 6
+servidor = {
+    "status": input("Status (ok/erro): "),
+    "tempo_resposta": int(input("Tempo de resposta (ms): "))
+}
+
+match servidor:
+    case {"status": "ok", "tempo_resposta": t} if t > 200:
+        print("Servidor lento")
+    case {"status": "ok"}:
+        print("Servidor ativo")
+    case {"status": "erro"}:
+        print("Servidor indisponível")
+    case _:
+        print("Estado desconhecido")
+
+
+# EXERCÍCIO 7
+produto = {
+    "categoria": input("Categoria: "),
+    "preco": float(input("Preço: "))
+}
+
+match produto:
+    case {"categoria": "eletrónico", "preco": p} if p > 1000:
+        print("Produto de luxo")
+    case {"categoria": "eletrónico"}:
+        print("Produto comum")
+    case {"categoria": "alimento"}:
+        print("Produto alimentar")
+    case _:
+        print("Categoria desconhecida")
+
+
+# EXERCÍCIO 8
+operacao = input("Operação (soma/subtrai/multiplica/divide): ")
+num1 = float(input("Número 1: "))
+num2 = float(input("Número 2: "))
+
+match operacao:
+    case "soma":
+        print(num1 + num2)
+    case "subtrai":
+        print(num1 - num2)
+    case "multiplica":
+        print(num1 * num2)
+    case "divide":
+        print(num1 / num2 if num2 != 0 else "Erro: divisão por zero")
+    case _:
+        print("Operação inválida")
+
+# EXERCÍCIO 9
+requisicao = {
+    "metodo": input("Método (GET/POST): "),
+    "conteudo": input("Conteúdo: ")
+}
+
+match requisicao:
+    case {"metodo": "GET"}:
+        print("Requisição GET recebida")
+    case {"metodo": "POST", "conteudo": ""}:
+        print("Requisição POST sem dados")
+    case {"metodo": "POST"}:
+        print("Requisição POST com dados válidos")
+    case _:
+        print("Método não suportado")
+
+#EXERCÍCIO 10
+jogador1 = input("Jogador 1 (pedra/papel/tesoura): ").strip().lower()
+jogador2 = input("Jogador 2 (pedra/papel/tesoura): ").strip().lower()
+
+match (jogador1, jogador2):
+    case (j1, j2) if j1 == j2:
+        print("Empate")
+    case ("pedra", "tesoura") | ("tesoura", "papel") | ("papel", "pedra"):
+        print("Jogador 1 venceu")
+    case ("tesoura", "pedra") | ("papel", "tesoura") | ("pedra", "papel"):
+        print("Jogador 2 venceu")
+    case _:
+        print("Jogada inválida")
