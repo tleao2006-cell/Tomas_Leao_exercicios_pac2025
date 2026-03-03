@@ -1,6 +1,6 @@
 #Tomás Leão -2025138984
 #EXERCÍCIO 1
-segundos_totais = int(input("Digite o valor em segundos: "))
+segundos_totais = int(input("Introduz o valor em segundos: "))
 horas = segundos_totais // 3600
 minutos = (segundos_totais % 3600) // 60
 segundos = segundos_totais % 60
@@ -8,9 +8,9 @@ print(f"{horas} hora(s), {minutos} minuto(s) e {segundos} segundo(s)")
 
 
 # TESTE DO EXERCÍCIO 2
-num1 = int(input("Digite o primeiro número: "))
-num2 = int(input("Digite o segundo número: "))
-num3 = int(input("Digite o terceiro número: "))
+num1 = int(input("Introduz o primeiro número: "))
+num2 = int(input("Introduz o segundo número: "))
+num3 = int(input("Introduz o terceiro número: "))
 maior = max(num1, num2, num3)
 menor = min(num1, num2, num3)
 print(f"Maior: {maior}")
@@ -18,8 +18,8 @@ print(f"Menor: {menor}")
 
 
 # TESTE DO EXERCÍCIO 3
-num1 = int(input("Digite o primeiro número: "))
-num2 = int(input("Digite o segundo número: "))
+num1 = int(input("Introduz o primeiro número: "))
+num2 = int(input("Introduz o segundo número: "))
 crescente = sorted([num1, num2])
 decrescente = sorted([num1, num2], reverse=True)
 print(f"Crescente: {crescente[0]}, {crescente[1]}")
@@ -27,8 +27,8 @@ print(f"Decrescente: {decrescente[0]}, {decrescente[1]}")
 
 
 # TESTE DO EXERCÍCIO 4
-saldo = float(input("Digite o saldo inicial: "))
-cheque = float(input("Digite o valor do cheque: "))
+saldo = float(input("Introduz o saldo inicial: "))
+cheque = float(input("Introduz o valor do cheque: "))
 
 if cheque <= saldo:
     saldo -= cheque
@@ -38,9 +38,9 @@ else:
 
 
 # TESTE DO EXERCÍCIO 5
-num1 = int(input("Digite o primeiro número: "))
-num2 = int(input("Digite o segundo número: "))
-num3 = int(input("Digite o terceiro número: "))
+num1 = int(input("Introduz o primeiro número: "))
+num2 = int(input("Introduz o segundo número: "))
+num3 = int(input("Introduz o terceiro número: "))
 
 valores = [num1, num2, num3]
 crescente = sorted(valores)
@@ -52,7 +52,7 @@ print(f"Decrescente: {decrescente[0]}, {decrescente[1]}, {decrescente[2]}")
 
 # TESTE DO EXERCÍCIO 6
 nome = input("Digite o nome do cliente: ")
-valor_compra = float(input("Digite o valor da compra: "))
+valor_compra = float(input("Coloque o valor da compra: "))
 
 if valor_compra <= 200:
     desconto = valor_compra * 0.10
@@ -70,9 +70,9 @@ print(f"Total a pagar: {total_pagar:.2f}€")
 
 
 # TESTE DO EXERCÍCIO 7
-nota1 = float(input("Digite a primeira nota: "))
-nota2 = float(input("Digite a segunda nota: "))
-nota3 = float(input("Digite a terceira nota: "))
+nota1 = float(input("Introduz a primeira nota: "))
+nota2 = float(input("Introduz a segunda nota: "))
+nota3 = float(input("Introduz a terceira nota: "))
 
 media = (nota1 * 2 + nota2 * 3 + nota3 * 5) / 10
 
@@ -86,7 +86,7 @@ else:
 # TESTE DO EXERCÍCIO 8
 notas = []
 for i in range(10):
-    nota = float(input(f"Digite a nota do aluno {i+1}: "))
+    nota = float(input(f"Introduz a nota do aluno {i+1}: "))
     notas.append(nota)
 
 media = sum(notas) / len(notas)
@@ -101,7 +101,7 @@ pares = 0
 impares = 0
 
 for i in range(10):
-    num = int(input(f"Digite o {i+1}º número: "))
+    num = int(input(f"Introduz o {i+1}º número: "))
     if num % 2 == 0:
         pares += 1
     else:
@@ -116,7 +116,7 @@ pares = 0
 impares = 0
 
 for i in range(10):
-    num = int(input(f"Digite o {i+1}º número: "))
+    num = int(input(f"Introduz o {i+1}º número: "))
     if num % 2 == 0:
         pares += 1
     else:
