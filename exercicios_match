@@ -1,6 +1,6 @@
 #Tomás Leão -2025138984
 #EXERCÍCIO 1
-dia = input("Introduza o nome do dia da semana: ").strip().lower()
+dia = input("Introduza o nome do dia da semana: ").lower()
 
 match dia:
     case "segunda" | "terça" | "quarta" | "quinta" | "sexta":
@@ -55,7 +55,7 @@ match valor:
         print("Tipo desconhecido")
 
 # EXERCÍCIO 5
-mensagem = input("Introduza uma mensagem: ").strip().lower()
+mensagem = input("Introduza uma mensagem: ").lower()
 
 match mensagem:
     case "olá" | "bom dia":
@@ -69,10 +69,7 @@ match mensagem:
 
 
 # EXERCÍCIO 6
-servidor = {
-    "status": input("Status (ok/erro): "),
-    "tempo_resposta": int(input("Tempo de resposta (ms): "))
-}
+servidor = {"status": input("Status (ok/erro): "),"tempo_resposta": int(input("Tempo de resposta (ms): "))}
 
 match servidor:
     case {"status": "ok", "tempo_resposta": t} if t > 200:
@@ -86,10 +83,7 @@ match servidor:
 
 
 # EXERCÍCIO 7
-produto = {
-    "categoria": input("Categoria: "),
-    "preco": float(input("Preço: "))
-}
+produto = {"categoria": input("Categoria: "),"preco": float(input("Preço: "))}
 
 match produto:
     case {"categoria": "eletrónico", "preco": p} if p > 1000:
@@ -120,10 +114,7 @@ match operacao:
         print("Operação inválida")
 
 # EXERCÍCIO 9
-requisicao = {
-    "metodo": input("Método (GET/POST): "),
-    "conteudo": input("Conteúdo: ")
-}
+requisicao = {"metodo": input("Método (GET/POST): "),"conteudo": input("Conteúdo: ")}
 
 match requisicao:
     case {"metodo": "GET"}:
@@ -136,8 +127,8 @@ match requisicao:
         print("Método não suportado")
 
 #EXERCÍCIO 10
-jogador1 = input("Jogador 1 (pedra/papel/tesoura): ").strip().lower()
-jogador2 = input("Jogador 2 (pedra/papel/tesoura): ").strip().lower()
+jogador1 = input("Jogador 1 (pedra/papel/tesoura): ").lower()
+jogador2 = input("Jogador 2 (pedra/papel/tesoura): ").lower()
 
 match (jogador1, jogador2):
     case (j1, j2) if j1 == j2:
