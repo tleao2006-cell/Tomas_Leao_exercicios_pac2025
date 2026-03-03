@@ -1,30 +1,46 @@
 #Tomás Leão -2025138984
 #EXERCÍCIO 1
-segundos_totais = int(input("Introduz o valor em segundos: "))
-horas = segundos_totais // 3600
-minutos = (segundos_totais % 3600) // 60
-segundos = segundos_totais % 60
-print(f"{horas} hora(s), {minutos} minuto(s) e {segundos} segundo(s)")
+segundos = int(input("Digite os segundos: "))
+
+if segundos >= 0:
+    horas = segundos // 3600
+    minutos = (segundos % 3600) // 60
+    segundos_rest = segundos % 60
+    print(f"{horas} horas, {minutos} minutos e {segundos_rest} segundos")
+else:
+    print("Número de segundos inválido, os numeros não podem ser negativo")
 
 
 # EXERCÍCIO 2
-num1 = int(input("Introduz o primeiro número: "))
-num2 = int(input("Introduz o segundo número: "))
-num3 = int(input("Introduz o terceiro número: "))
-maior = max(num1, num2, num3)
-menor = min(num1, num2, num3)
+num1 = int(input("Digite o primeiro número: "))
+num2 = int(input("Digite o segundo número: "))
+num3 = int(input("Digite o terceiro número: "))
+
+maior = num1
+if num2 > maior:
+    maior = num2
+if num3 > maior:
+    maior = num3
+
+menor = num1
+if num2 < menor:
+    menor = num2
+if num3 < menor:
+    menor = num3
+
 print(f"Maior: {maior}")
 print(f"Menor: {menor}")
 
-
 # EXERCÍCIO 3
-num1 = int(input("Introduz o primeiro número: "))
-num2 = int(input("Introduz o segundo número: "))
-crescente = sorted([num1, num2])
-decrescente = sorted([num1, num2], reverse=True)
-print(f"Crescente: {crescente[0]}, {crescente[1]}")
-print(f"Decrescente: {decrescente[0]}, {decrescente[1]}")
+num1 = int(input("Digite o primeiro número: "))
+num2 = int(input("Digite o segundo número: "))
 
+if num1 < num2:
+    print(f"Crescente: {num1}, {num2}")
+    print(f"Decrescente: {num2}, {num1}")
+else:
+    print(f"Crescente: {num2}, {num1}")
+    print(f"Decrescente: {num1}, {num2}")
 
 # EXERCÍCIO 4
 saldo = float(input("Introduz o saldo inicial: "))
@@ -38,17 +54,18 @@ else:
 
 
 # EXERCÍCIO 5
-num1 = int(input("Introduz o primeiro número: "))
-num2 = int(input("Introduz o segundo número: "))
-num3 = int(input("Introduz o terceiro número: "))
+a = int(input("Digite o primeiro valor: "))
+b = int(input("Digite o segundo valor: "))
+c = int(input("Digite o terceiro valor: "))
+if a > b:
+    a, b = b, a
+if a > c:
+    a, c = c, a
+if b > c:
+    b, c = c, b
 
-valores = [num1, num2, num3]
-crescente = sorted(valores)
-decrescente = sorted(valores, reverse=True)
-
-print(f"Crescente: {crescente[0]}, {crescente[1]}, {crescente[2]}")
-print(f"Decrescente: {decrescente[0]}, {decrescente[1]}, {decrescente[2]}")
-
+print(f"Crescente: {a}, {b}, {c}")
+print(f"Decrescente: {c}, {b}, {a}")
 
 # EXERCÍCIO 6
 nome = input("Digite o nome do cliente: ")
@@ -86,29 +103,49 @@ else:
 # EXERCÍCIO 8
 notas = []
 for i in range(10):
-    nota = float(input(f"Introduz a nota do aluno {i+1}: "))
+    nota = float(input(f"Digite a nota do aluno: "))
     notas.append(nota)
 
-media = sum(notas) / len(notas)
-acima_ou_igual = sum(1 for nota in notas if nota >= media)
+media = sum(notas) / 10
 
-print(f"Média da turma: {media:.2f}")
-print(f"Alunos com nota igual ou acima da média: {acima_ou_igual}")
+acima_media = 0
+for nota in notas:
+    if nota >= media:
+        acima_media += 1
+
+print(f"Média: {media:.2f}")
+print(f"Alunos com nota igual ou acima da média: {acima_media}")
 
 
 # EXERCÍCIO SWITCH
-pares = 0
-impares = 0
+mes = int(input("Digite um número de 1 a 12: "))
 
-for i in range(10):
-    num = int(input(f"Introduz o {i+1}º número: "))
-    if num % 2 == 0:
-        pares += 1
-    else:
-        impares += 1
-
-print(f"Pares: {pares}")
-print(f"Ímpares: {impares}")
+if mes == 1:
+    print("Janeiro")
+elif mes == 2:
+    print("Fevereiro")
+elif mes == 3:
+    print("Março")
+elif mes == 4:
+    print("Abril")
+elif mes == 5:
+    print("Maio")
+elif mes == 6:
+    print("Junho")
+elif mes == 7:
+    print("Julho")
+elif mes == 8:
+    print("Agosto")
+elif mes == 9:
+    print("Setembro")
+elif mes == 10:
+    print("Outubro")
+elif mes == 11:
+    print("Novembro")
+elif mes == 12:
+    print("Dezembro")
+else:
+    print("Mês inválido")
 
 
 # EXERCÍCIO LOOP
@@ -116,7 +153,7 @@ pares = 0
 impares = 0
 
 for i in range(10):
-    num = int(input(f"Introduz o {i+1}º número: "))
+    num = int(input(f"Introduz o  número: "))
     if num % 2 == 0:
         pares += 1
     else:
