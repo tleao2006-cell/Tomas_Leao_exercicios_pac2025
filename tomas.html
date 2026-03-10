@@ -1,0 +1,246 @@
+#Tomas Leao- 2025138984
+Exercicio 6
+<ul>
+  <li>Segunda</li>
+  <li>Terça</li>
+  <li>Quarta</li>
+  <li>Quinta</li>
+  <li>Sexta</li>
+  <li>Sábado</li>
+  <li>Domingo</li>
+</ul>
+Exercicio 7
+<ol>
+  <li>Janeiro</li>
+  <li>Fevereiro</li>
+  <li>Março</li>
+  <li>Abril</li>
+  <li>Maio</li>
+  <li>Junho</li>
+  <li>Julho</li>
+  <li>Agosto</li>
+  <li>Setembro</li>
+  <li>Outubro</li>
+  <li>Novembro</li>
+  <li>Dezembro</li>
+</ol>
+Exercicio 10 & 11
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Estrutura</title>
+</head>
+
+<body>
+
+<header>
+<h1>Site Tecnologias de Cloud</h1>
+</header>
+
+<nav>
+<ul>
+<li>Início</li>
+<li>Sobre</li>
+<li>Contactos</li>
+</ul>
+</nav>
+
+<main>
+
+<article>
+<h2>Unidade 1</h2>
+
+<section>
+<h3>Secção 1</h3>
+<p>Conteúdo da primeira secção.</p>
+</section>
+
+<section>
+<h3>Secção 2</h3>
+<p>Conteúdo da segunda secção.</p>
+</section>
+
+</article>
+
+<article>
+<h2>Unidade 2</h2>
+
+<section>
+<h3>Secção 1</h3>
+<p>Conteúdo da primeira secção.</p>
+</section>
+
+<section>
+<h3>Secção 2</h3>
+<p>Conteúdo da segunda secção.</p>
+</section>
+
+</article>
+
+<article>
+<h2>Unidade 3</h2>
+
+<section>
+<h3>Secção 1</h3>
+<p>Conteúdo da primeira secção.</p>
+</section>
+
+<section>
+<h3>Secção 2</h3>
+<p>Conteúdo da segunda secção.</p>
+</section>
+
+</article>
+
+</main>
+
+<footer>
+<p>© 2026 Tecnologias de Cloud</p>
+</footer>
+
+</body>
+</html>
+
+# Exercicio 12-21
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Tabela</title>
+
+<style>
+
+table{
+border:2px solid black;
+border-collapse:collapse;
+}
+
+td, th{
+border:1px solid black;
+padding:5px;
+text-align:center;
+}
+
+.col1{
+width:100px;
+}
+
+.col2{
+background-color:yellow;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<table>
+
+<caption>Tabela ABCD</caption>
+
+<thead>
+<tr>
+<th class="col1">A</th>
+<th class="col2">B</th>
+<th>C</th>
+<th>D</th>
+</tr>
+</thead>
+
+<tbody>
+
+<tr>
+<td>A1</td>
+<td>B1</td>
+<td colspan="2">C1 D1</td>
+</tr>
+
+<tr>
+<td>A2</td>
+<td>B2</td>
+<td>C2</td>
+<td rowspan="3">D2 D3 D4</td>
+</tr>
+
+<tr>
+<td>A3</td>
+<td>B3</td>
+<td>C3</td>
+</tr>
+
+<tr>
+<td>A4</td>
+<td>B4</td>
+<td>C4</td>
+</tr>
+
+<tr>
+<td>A5</td>
+<td>B5</td>
+<td rowspan="2" colspan="2">C5 C6 D5 D6</td>
+</tr>
+
+<tr>
+<td>A6</td>
+<td>B6</td>
+</tr>
+
+</tbody>
+
+<tfoot>
+<tr>
+<td colspan="4">Total de linhas: 6</td>
+</tr>
+</tfoot>
+
+</table>
+
+</body>
+</html>
+# Exercicio 22-26
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<title>Formulário</title>
+</head>
+
+<body>
+
+<form>
+
+<label>Nome:</label><br>
+<input type="text" name="nome" required><br><br>
+
+<label>Email:</label><br>
+<input type="email" name="email" required><br><br>
+
+<label>Morada:</label><br>
+<input type="text" name="morada" required><br><br>
+
+<label>Código Postal:</label><br>
+<input type="text" name="cp" pattern="^\d{4}-\d{3}?$" placeholder="2910-111"><br><br>
+
+<label>Homepage:</label><br>
+<input type="url" name="homepage"><br><br>
+
+<label>Cor Preferida:</label><br>
+<input type="color" name="cor"><br><br>
+
+<label>Data de Nascimento:</label><br>
+<input type="date" name="data"><br><br>
+
+<label>Média Atual:</label><br>
+<input type="number" name="media" min="0" max="20" step="1"><br><br>
+
+<label>Observações:</label><br>
+<textarea name="obs" maxlength="100"></textarea><br><br>
+
+<input type="submit" value="Enviar">
+
+</form>
+
+</body>
+</html>
