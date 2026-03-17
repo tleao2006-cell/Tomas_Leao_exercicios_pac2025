@@ -1,1 +1,80 @@
-teset
+# Tomas Leao 2025138984
+
+#Exercicio 1
+alunos = {}
+
+alunos['nome'] = 'Maria'
+alunos['idade'] = 20
+alunos['curso'] = 'Engenharia'
+
+for chave, valor in alunos.items():
+    print(f'{chave}: {valor}')
+
+#Exercicio 2
+carro = {'marca': 'Toyota', 'modelo': 'Corolla', 'ano': 2020}
+print(carro['modelo'])
+
+#Exercicio 3
+produto = {}
+
+produto['nome'] = 'Telemóvel'
+produto['preço'] = 1500
+produto['stock'] = 30
+
+del produto['stock']
+
+print(produto)
+
+#Exercicio 4
+utilizador = {'nome': 'Carlos', 'idade': 28}
+
+if 'email' in utilizador:
+    print("Email encontrado!")
+else:
+    print("Email não encontrado.")
+#Exercicio 5
+palavra = input("Introduza uma palavra: ")
+contagem = {}
+
+for letra in palavra:
+    if letra in contagem:
+        contagem[letra] += 1
+    else:
+        contagem[letra] = 1
+
+print(contagem)
+
+#Exercicio 7
+vendas = {'Janeiro': 1000, 'Fevereiro': 1500, 'Março': 1200}
+total = sum(vendas.values())
+print(f"Total de vendas do trimestre: {total}")
+#Exercicio 8
+d1 = {'a': 1, 'b': 2}
+d2 = {'c': 3, 'd': 4}
+
+d3 = {**d1, **d2}  
+
+print(d3)
+
+#Exercicio 9
+notas = {
+    'João': [7, 8, 9],
+    'Maria': [10, 9, 8],
+    'Ana': [6, 7, 8]
+}
+
+for aluno, lista_notas in notas.items():
+    media = sum(lista_notas) / len(lista_notas)
+    print(f"{aluno}: {media:.1f}")
+#Exercicio 10
+frase = input("Introduza uma frase: ")
+palavras = frase.split()
+contagem_palavras = {}
+
+for palavra in palavras:
+    if palavra in contagem_palavras:
+        contagem_palavras[palavra] += 1
+    else:
+        contagem_palavras[palavra] = 1
+
+print(contagem_palavras)
