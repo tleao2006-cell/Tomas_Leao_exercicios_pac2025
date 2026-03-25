@@ -1,0 +1,178 @@
+import json
+import re
+import os
+
+
+dados = [
+    {
+        "nome": "Ana Costa",
+        "email": "ana.costa@gmail.com",
+        "nif": "123456789",
+        "telemovel": "912345678",
+        "site": "https://www.anacosta.pt"
+    },
+    {
+        "nome": "João Silva",
+        "email": "joao_silva@empresa.com",
+        "nif": "987654321",
+        "telemovel": "914-567-123",
+        "site": "http://joaosilva.com"
+    },
+    {
+        "nome": "Marta Dias",
+        "email": "marta.dias@escola.edu",
+        "nif": "192837465",
+        "telemovel": "210 987 654",
+        "site": "https://marta.edu"
+    }
+]
+
+
+with open('dados.json', 'w', encoding='utf-8') as file:
+    json.dump(dados, file, indent=2, ensure_ascii=False)
+
+print("dados.json created successfully!")
+
+
+print("\n" + "="*50)
+print("EXERCISE 1: Reading JSON file")
+print("="*50)
+
+with open('dados.json', 'r', encoding='utf-8') as file:
+    data = json.load(file)
+
+print("Data read from dados.json:")
+for person in data:
+    print(f"  - {person['nome']}: {person['email']}")
+
+
+print("\n" + "="*50)
+print("EXERCISE 2: Validating emails with regex")
+print("="*50)
+
+
+email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+
+for person in data:
+    email = person['email']
+    if re.match(email_pattern, email):
+        print(f"✓ {person['nome']}: {email} - VALID")
+    else:
+        print(f"✗ {person['nome']}: {email} - INVALID")
+
+
+print("\n" + "="*50)
+print("EXERCISE 3: Extracting domains from sites")
+print("="*50)
+
+# Regex to extract domain from URL
+domain_pattern = r'(?:https?://)?(?:www\.)?([a-zA-Z0-9.-]+\.[a-zA-Z]{2,})'
+
+for person in data:
+    site = person['site']
+    match = re.search(domain_pattern, site)
+    if match:
+        domain = match.group(1)
+        print(f"{person['nome']}: {domain}")
+    else:
+        print(f"{person['nome']}: Could not extract domain")
+
+
+print("\n" + "="*50)
+print("EXERCISE 4: Validating NIFs with regex")
+print("="*50)
+
+
+nif_pattern = r'^[123568]\d{8}$'
+
+for person in data:
+    nif = person['nif']
+    if re.match(nif_pattern, nif):
+        print(f"✓ {person['nome']}: {nif} - VALID")
+    else:
+        print(f"✗ {person['nome']}: {nif} - INVALID")
+
+
+print("\n" + "="*50)
+print("EXERCISE 5: Saving valid records to a new JSON file")
+print("="*50)
+
+def validate_email(email):
+    """Check if email format is valid"""
+    email_pattern = r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$'
+    return bool(re.match(email_pattern, email))
+
+def validate_nif(nif):
+    """Check if NIF has 9 digits and starts with 1,2,3,5,6,8"""
+    nif_pattern = r'^[123568]\d{8}$'
+    return bool(re.match(nif_pattern, nif))
+
+def validate_phone(phone):
+    """Check if phone has 9 digits (in any format)"""
+    
+    digits_only = re.sub(r'\D', '', phone)
+    return len(digits_only) == 9
+
+valid_records = []
+
+for person in data:
+    is_valid = True
+    errors = []
+    
+    
+    if not validate_email(person['email']):
+        is_valid = False
+        errors.append("invalid email")
+    
+    
+    if not validate_nif(person['nif']):
+        is_valid = False
+        errors.append("invalid NIF")
+    
+   
+    if not validate_phone(person['telemovel']):
+        is_valid = False
+        errors.append("invalid phone")
+    
+    if is_valid:
+        valid_records.append(person)
+        print(f"✓ {person['nome']} - VALID")
+    else:
+        print(f"✗ {person['nome']} - INVALID ({', '.join(errors)})")
+
+
+with open('validos.json', 'w', encoding='utf-8') as file:
+    json.dump(valid_records, file, indent=2, ensure_ascii=False)
+
+print(f"\n{len(valid_records)} valid records saved to 'validos.json'")
+
+
+print("\n" + "="*50)
+print("EXERCISE 6: Creating .txt file with name and email")
+print("="*50)
+
+
+with open('nomes_emails.txt', 'w', encoding='utf-8') as file:
+    file.write("Names and Emails\n")
+    file.write("="*50 + "\n")
+    for person in data:
+        file.write(f"Name: {person['nome']}\n")
+        file.write(f"Email: {person['email']}\n")
+        file.write("-"*30 + "\n")
+
+print("File 'nomes_emails.txt' created successfully!")
+
+
+print("\nContent of nomes_emails.txt:")
+print("="*50)
+with open('nomes_emails.txt', 'r', encoding='utf-8') as file:
+    print(file.read())
+
+
+print("\n" + "="*50)
+print("SUMMARY")
+print("="*50)
+print("Files created:")
+print("  1. dados.json - Original data")
+print("  2. validos.json - Valid records only")
+print("  3. nomes_emails.txt - Names and emails extracted")
