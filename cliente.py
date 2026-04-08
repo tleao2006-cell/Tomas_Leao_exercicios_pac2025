@@ -1,46 +1,48 @@
 import socket
 import threading
 import sys
-from colorama import init, Fore, Style
-
-init(autoreset=True)
 
 HOST = "127.0.0.1"
-PORT = 9955
+PORTA = 9955
 
 def receber(sock):
     while True:
         try:
             dados = sock.recv(2048)
             if not dados:
-                print(Fore.RED + "\n[CHAT] Ligação encerrada pelo servidor.")
+                print("\n[CHAT] Ligação encerrada pelo servidor.")
                 break
+
             print(f"\r{dados.decode('utf-8')}")
             print(">> ", end="", flush=True)
         except:
-            print(Fore.RED + "\n[CHAT] Perda de ligação ao servidor.")
+            print("\n[CHAT] Perda de ligação ao servidor.")
             break
+
+    sock.close()
+    sys.exit(0)
 
 def main():
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
     try:
-        sock.connect((HOST, PORT))
-    except:
-        print(Fore.RED + f"[ERRO] Não foi possível ligar a {HOST}:{PORT}")
+        sock.connect((HOST, PORTA))
+    except ConnectionRefusedError:
+        print(f"[ERRO] Não foi possível ligar a {HOST}:{PORTA}. O servidor está a correr?")
         sys.exit(1)
 
-    print(Fore.CYAN + "="*50)
-    print(Fore.CYAN + "   Sistema de Chat com Deteção GDPR")
-    print(Fore.CYAN + "="*50)
+    print("=========================================")
+    print("   Sistema de Chat com Deteção GDPR")
+    print("=========================================")
 
+    
     try:
         if sock.recv(1024).decode("utf-8") != "NOME_REQ":
-            print(Fore.RED + "[ERRO] Resposta inesperada do servidor.")
+            print("[ERRO] Resposta inesperada do servidor.")
             sock.close()
             sys.exit(1)
     except:
-        print(Fore.RED + "[ERRO] Falha na ligação.")
+        print("[ERRO] Falha na ligação.")
         sock.close()
         sys.exit(1)
 
@@ -48,13 +50,14 @@ def main():
         nome = input("Escolhe o teu nome: ").strip()
         if nome:
             break
-        print(Fore.YELLOW + "Nome não pode estar vazio.")
+        print("Nome não pode estar vazio.")
 
     sock.send(nome.encode("utf-8"))
 
+    
     threading.Thread(target=receber, args=(sock,), daemon=True).start()
 
-    print(Fore.GREEN + "\nLigado! Comandos: sair | /online | /pm nome mensagem\n")
+    print("\nLigado! Comandos: 'sair' | '/online'\n")
 
     try:
         while True:
@@ -67,10 +70,12 @@ def main():
             sock.send(mensagem.encode("utf-8"))
 
             if mensagem.strip().lower() == "sair":
-                print(Fore.YELLOW + "[CHAT] A desligar...")
+                print("[CHAT] A desligar...")
                 break
+    except KeyboardInterrupt:
+        print("\n[CLIENTE] A sair...")
     except:
-        pass
+        print("[CLIENTE] Erro de comunicação.")
     finally:
         sock.close()
 
