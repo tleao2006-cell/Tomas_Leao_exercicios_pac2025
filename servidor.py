@@ -5,7 +5,7 @@ import os
 from datetime import datetime
  
 
-HOST = "0.0.0.0"
+HOST = "127.0.0.1"
 PORTA = 9955
  
 PASTA_LOGS = "registos"
@@ -172,7 +172,7 @@ def gerir_cliente(sock, endereco):
  
     desligar_utilizador(sock)
  
-# ── Arranque do servidor ─────────────────────────────────────────────
+
 def arrancar():
     servidor = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     servidor.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
