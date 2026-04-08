@@ -16,7 +16,7 @@ FICHEIRO_ATIVIDADE = os.path.join(PASTA_LOGS, "atividade.txt")
 utilizadores = {}  
 lock = threading.Lock()
 
-# Expressões Regulares para deteção GDPR
+
 RE_EMAIL    = re.compile(r'\b[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}\b')
 RE_TELEFONE = re.compile(r'\b(?:\+351\s?)?(?:9[1236]\d|2\d{2})[\s\-]?\d{3}[\s\-]?\d{3}\b')
 RE_IP       = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
@@ -80,7 +80,7 @@ def gerir_cliente(sock, addr):
             return
 
         with lock:
-            # Impede nomes duplicados
+            
             if any(n.lower() == nome.lower() for n in utilizadores.values()):
                 enviar(sock, "[ERRO] Nome já em uso. Escolha outro nome.")
                 return
@@ -112,7 +112,7 @@ def gerir_cliente(sock, addr):
                 enviar(sock, f"[SISTEMA] Utilizadores online: {online}")
                 continue
 
-            # ==================== MENSAGEM PRIVADA ====================
+            
             if msg.startswith("/pm "):
                 try:
                     parts = msg.split(maxsplit=2)
@@ -131,9 +131,9 @@ def gerir_cliente(sock, addr):
                 except:
                     enviar(sock, "[ERRO] Uso correto: /pm nome mensagem")
                 continue
-            # ===========================================================
+            
 
-            # Verificar GDPR
+           
             if contem_dados_pessoais(msg, nome):
                 enviar(sock, "[GDPR] AVISO: Mensagem bloqueada por conter dados pessoais (GDPR).")
             else:
