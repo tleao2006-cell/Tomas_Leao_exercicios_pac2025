@@ -28,23 +28,17 @@ logging.basicConfig(
 )
 log = logging.getLogger("servidor")
 
-# ─────────────────────────────────────────────
-#  CONFIGURAÇÃO DO SERVIDOR
-# ─────────────────────────────────────────────
 HOST  = "127.0.0.1"
 PORTA = 12340
 
-# clientes: {socket: {"nome": str, "ip": str, "identidade": str}}
+
 clientes: dict = {}
 lock_clientes = threading.Lock()
 
-# score de risco por identidade
+
 reputacao: dict = {}
 LIMITE_BAN = 100
 
-# ─────────────────────────────────────────────
-#  PADRÕES GDPR  (regex)
-# ─────────────────────────────────────────────
 PADRAO_EMAIL    = re.compile(r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,}\b')
 PADRAO_TELEFONE = re.compile(r'\b(?:\+351\s?)?(?:9[1236]\d|2\d{2})\s?\d{3}\s?\d{3}\b')
 PADRAO_IP       = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
