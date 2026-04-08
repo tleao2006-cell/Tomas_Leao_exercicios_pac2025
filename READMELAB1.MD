@@ -1,11 +1,7 @@
  Sistema de Chat com Deteção de Dados Pessoais (GDPR)
-
  Descrição
 
 Este projeto consiste num sistema de chat multiusuário desenvolvido em Python, com deteção automática de dados pessoais em conformidade com o GDPR.
-
-O servidor analisa as mensagens e bloqueia as que contenham dados sensíveis, registando as ocorrências.
-
  Funcionalidades
 
 - Suporte a múltiplos utilizadores em simultâneo
@@ -31,3 +27,5 @@ gdpr-chat/
 │   ├── dados_pessoais.txt
 │   └── atividade.txt
 └── README.md
+
+Tomás Leão
