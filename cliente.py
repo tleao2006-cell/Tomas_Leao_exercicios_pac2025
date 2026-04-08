@@ -35,7 +35,7 @@ def main():
     print("   Sistema de Chat com Deteção GDPR")
     print("=========================================")
 
-    # Pedir nome
+    
     try:
         if sock.recv(1024).decode("utf-8") != "NOME_REQ":
             print("[ERRO] Resposta inesperada do servidor.")
@@ -54,7 +54,7 @@ def main():
 
     sock.send(nome.encode("utf-8"))
 
-    # Thread de receção
+    
     threading.Thread(target=receber, args=(sock,), daemon=True).start()
 
     print("\nLigado! Comandos: 'sair' | '/online'\n")

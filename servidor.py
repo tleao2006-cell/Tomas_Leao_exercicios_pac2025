@@ -13,10 +13,10 @@ os.makedirs(PASTA_LOGS, exist_ok=True)
 FICHEIRO_GDPR = os.path.join(PASTA_LOGS, "dados_pessoais.txt")
 FICHEIRO_ATIVIDADE = os.path.join(PASTA_LOGS, "atividade.txt")
 
-utilizadores = {}  # sock: nome
+utilizadores = {}  
 lock = threading.Lock()
 
-# Regex para deteção de dados pessoais (GDPR)
+
 RE_EMAIL    = re.compile(r'\b[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}\b')
 RE_TELEFONE = re.compile(r'\b(?:\+351\s?)?(?:9[1236]\d|2\d{2})[\s\-]?\d{3}[\s\-]?\d{3}\b')
 RE_IP       = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
