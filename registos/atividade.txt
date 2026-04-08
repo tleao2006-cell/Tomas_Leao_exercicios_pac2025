@@ -2,3 +2,4 @@
 [08/04/2026 02:11:50] tomas saiu do chat.
 [08/04/2026 02:48:39] tiago entrou no chat (127.0.0.1).
 [08/04/2026 02:49:44] joao entrou no chat (127.0.0.1).
+[08/04/2026 02:56:45] maria entrou no chat (127.0.0.1).
