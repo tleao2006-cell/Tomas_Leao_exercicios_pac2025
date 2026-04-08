@@ -1,0 +1,2 @@
+[08/04/2026 02:11:26] tomas entrou no chat (127.0.0.1).
+[08/04/2026 02:11:50] tomas saiu do chat.
