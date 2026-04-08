@@ -1,0 +1,5 @@
+[08/04/2026 02:52:45] UTILIZADOR: joao | DETETADO: email | MENSAGEM: O meu email é tiago.silva@gmail.com
+[08/04/2026 02:52:54] UTILIZADOR: joao | DETETADO: telefone | MENSAGEM: O meu telefone é 912345678
+[08/04/2026 02:52:59] UTILIZADOR: joao | DETETADO: nome | MENSAGEM: Chamo-me Tiago Mendes Oliveira
+[08/04/2026 02:53:05] UTILIZADOR: joao | DETETADO: data | MENSAGEM: A minha data de nascimento é 15/04/2006
+[08/04/2026 02:53:11] UTILIZADOR: joao | DETETADO: password | MENSAGEM: A minha senha é 123456
