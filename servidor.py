@@ -16,7 +16,7 @@ FICHEIRO_ATIVIDADE = os.path.join(PASTA_LOGS, "atividade.txt")
 utilizadores = {}  
 lock = threading.Lock()
 
-
+# Regex GDPR
 RE_EMAIL    = re.compile(r'\b[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}\b')
 RE_TELEFONE = re.compile(r'\b(?:\+351\s?)?(?:9[1236]\d|2\d{2})[\s\-]?\d{3}[\s\-]?\d{3}\b')
 RE_IP       = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
@@ -80,9 +80,8 @@ def gerir_cliente(sock, addr):
             return
 
         with lock:
-            
             if any(n.lower() == nome.lower() for n in utilizadores.values()):
-                enviar(sock, "[ERRO] Nome já em uso. Escolha outro nome.")
+                enviar(sock, "[ERRO] Nome já em uso.")
                 return
             utilizadores[sock] = nome
 
@@ -90,7 +89,6 @@ def gerir_cliente(sock, addr):
         registar(FICHEIRO_ATIVIDADE, f"{nome} entrou no chat ({addr[0]}).")
         difundir(f"[CHAT] {nome} entrou na sala.", exceto=sock)
         
-        # Mensagem de boas-vindas
         enviar(sock, f"[CHAT] Bem-vindo, {nome}! Comandos: 'sair' | '/online' | '/pm nome mensagem'")
 
         while True:
@@ -112,28 +110,27 @@ def gerir_cliente(sock, addr):
                 enviar(sock, f"[SISTEMA] Utilizadores online: {online}")
                 continue
 
-            
+            # === CORREÇÃO PRINCIPAL: MENSAGEM PRIVADA ===
             if msg.startswith("/pm "):
                 try:
                     parts = msg.split(maxsplit=2)
                     if len(parts) < 3:
-                        raise ValueError
+                        raise ValueError("Mensagem incompleta")
                     _, target, texto = parts
                     
                     with lock:
                         target_sock = next((s for s, n in utilizadores.items() if n.lower() == target.lower()), None)
                     
-                    if target_sock:
+                    if target_sock and target_sock != sock:
                         enviar(target_sock, f"[PM de {nome}] {texto}")
                         enviar(sock, f"[PM para {target}] {texto}")
                     else:
                         enviar(sock, f"[ERRO] Utilizador '{target}' não encontrado.")
                 except:
-                    enviar(sock, "[ERRO] Uso correto: /pm nome mensagem")
+                    enviar(sock, "[ERRO] Uso: /pm nome mensagem")
                 continue
-            
 
-           
+            # Verificação GDPR
             if contem_dados_pessoais(msg, nome):
                 enviar(sock, "[GDPR] AVISO: Mensagem bloqueada por conter dados pessoais (GDPR).")
             else:

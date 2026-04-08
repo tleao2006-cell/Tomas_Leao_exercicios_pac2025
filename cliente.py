@@ -35,14 +35,15 @@ def main():
     print("   Sistema de Chat com Deteção GDPR")
     print("=========================================")
 
-    
+    # CORREÇÃO AQUI:
     try:
-        if sock.recv(1024).decode("utf-8") != "NOME_REQ":
-            print("[ERRO] Resposta inesperada do servidor.")
+        resposta = sock.recv(1024).decode("utf-8").strip()
+        if resposta != "NOME_REQ":
+            print(f"[ERRO] Resposta inesperada do servidor: {resposta}")
             sock.close()
             sys.exit(1)
-    except:
-        print("[ERRO] Falha na ligação.")
+    except Exception as e:
+        print(f"[ERRO] Falha na ligação: {e}")
         sock.close()
         sys.exit(1)
 
@@ -54,16 +55,13 @@ def main():
 
     sock.send(nome.encode("utf-8"))
 
-    
     threading.Thread(target=receber, args=(sock,), daemon=True).start()
 
-    print("\nLigado! Comandos: 'sair' | '/online'\n")
+    print("\nLigado! Comandos: 'sair' | '/online' | '/pm nome mensagem'\n")
 
     try:
         while True:
-            print(">> ", end="", flush=True)
-            mensagem = input()
-
+            mensagem = input(">> ")
             if not mensagem.strip():
                 continue
 
@@ -74,8 +72,8 @@ def main():
                 break
     except KeyboardInterrupt:
         print("\n[CLIENTE] A sair...")
-    except:
-        print("[CLIENTE] Erro de comunicação.")
+    except Exception as e:
+        print(f"[CLIENTE] Erro de comunicação: {e}")
     finally:
         sock.close()
 
