@@ -4,7 +4,7 @@ import re
 import os
 from datetime import datetime
  
-# ── Configuração ────────────────────────────────────────────────────
+
 HOST = "0.0.0.0"
 PORTA = 9955
  
@@ -15,14 +15,14 @@ FICHEIRO_GDPR      = os.path.join(PASTA_LOGS, "dados_pessoais.txt")
 FICHEIRO_ES        = os.path.join(PASTA_LOGS, "engenharia_social.txt")
 FICHEIRO_ATIVIDADE = os.path.join(PASTA_LOGS, "atividade.txt")
  
-# ── Estado global ────────────────────────────────────────────────────
-utilizadores = {}           # socket -> nome
-pontuacao_risco = {}        # nome -> int
+
+utilizadores = {}          
+pontuacao_risco = {}        
 lock = threading.Lock()
  
 LIMITE_EXPULSAO = 100
  
-# ── Padrões de deteção GDPR ─────────────────────────────────────────
+
 RE_EMAIL     = re.compile(r'\b[\w.%+-]+@[\w.-]+\.[a-zA-Z]{2,}\b')
 RE_TELEFONE  = re.compile(r'\b(?:\+351\s?)?(?:9[1236]\d|2\d{2})[\s\-]?\d{3}[\s\-]?\d{3}\b')
 RE_IP        = re.compile(r'\b(?:\d{1,3}\.){3}\d{1,3}\b')
@@ -31,13 +31,13 @@ RE_DATA      = re.compile(r'\b(?:0?[1-9]|[12]\d|3[01])[\/\-.](?:0?[1-9]|1[0-2])[
 RE_CARTAO    = re.compile(r'\b(?:4\d{12}(?:\d{3})?|5[1-5]\d{14}|3[47]\d{13})\b')
 RE_PASSWORD  = re.compile(r'(?i)(?:password|senha|palavra.passe)\s*[=:é]\s*\S+')
  
-# Gatilhos de engenharia social
+
 GATILHOS_ES = [
     "urgente", "clica aqui", "ganhaste", "promoção",
     "confirma os teus dados", "acesso imediato", "oferta exclusiva"
 ]
  
-# ── Funções auxiliares ───────────────────────────────────────────────
+
 def timestamp():
     return datetime.now().strftime("%d/%m/%Y %H:%M:%S")
  
@@ -70,7 +70,7 @@ def desligar_utilizador(sock):
     except:
         pass
  
-# ── Deteção de dados pessoais e engenharia social ────────────────────
+
 def verificar_mensagem(texto, nome_utilizador):
     dados_encontrados = []
  
@@ -91,13 +91,13 @@ def verificar_mensagem(texto, nome_utilizador):
  
     contem_dados_pessoais = len(dados_encontrados) > 0
  
-    # Guardar no log GDPR
+    
     if contem_dados_pessoais:
         registar(FICHEIRO_GDPR,
             f"UTILIZADOR: {nome_utilizador} | DETETADO: {', '.join(dados_encontrados)} | MENSAGEM: {texto}")
         print(f"[GDPR] Dados pessoais detetados de {nome_utilizador}: {dados_encontrados}")
  
-    # Verificar engenharia social
+    
     gatilhos_presentes = [g for g in GATILHOS_ES if g.lower() in texto.lower()]
     if gatilhos_presentes:
         pontos = len(gatilhos_presentes) * 25
@@ -108,7 +108,7 @@ def verificar_mensagem(texto, nome_utilizador):
  
     return contem_dados_pessoais
  
-# ── Thread por cliente ───────────────────────────────────────────────
+
 def gerir_cliente(sock, endereco):
     # Pedir username
     try:
@@ -129,7 +129,7 @@ def gerir_cliente(sock, endereco):
     difundir(f"[CHAT] {nome} entrou na sala.", exceto=sock)
     enviar_msg(sock, f"[CHAT] Ligado com sucesso. Bem-vindo, {nome}!")
  
-    # Loop de receção de mensagens
+    
     while True:
         try:
             dados = sock.recv(2048)
@@ -145,16 +145,16 @@ def gerir_cliente(sock, endereco):
                 enviar_msg(sock, "[CHAT] Ate logo!")
                 break
  
-            # Comando de estado
+            
             if mensagem.lower() == "/estado":
                 pontos = pontuacao_risco.get(nome, 0)
                 enviar_msg(sock, f"[SISTEMA] A tua pontuacao de risco e: {pontos}")
                 continue
  
-            # Verificar dados pessoais e ES
+            
             bloqueada = verificar_mensagem(mensagem, nome)
  
-            # Expulsar se ultrapassou o limite
+            
             if pontuacao_risco.get(nome, 0) >= LIMITE_EXPULSAO:
                 enviar_msg(sock, "[SISTEMA] Fuste expulso do servidor devido a comportamento suspeito repetido.")
                 difundir(f"[SISTEMA] {nome} foi expulso do servidor.", exceto=sock)
