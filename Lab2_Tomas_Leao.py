@@ -62,7 +62,7 @@ def crawler(url_inicial, max_paginas=20):
             if url_atual in paginas_visitadas:
                 continue
 
-            # Filtro importante: manter no mesmo domínio (recomendado)
+            # Filtro importante: manter no mesmo domínio 
             if urlparse(url_atual).netloc != dominio_inicial:
                 continue
 
