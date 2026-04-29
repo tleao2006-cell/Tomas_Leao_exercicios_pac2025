@@ -4,135 +4,111 @@ import urllib.robotparser
 from urllib.parse import urlparse, urljoin
 import time
 import json
-import os
-from collections import deque
-import random
 
-def get_robots_parser(base_url, user_agent):
-    """Lê robots.txt apenas uma vez por domínio"""
+# Configuração
+USER_AGENT = "MeuCrawlerEducacional/1.0 (estudo)"
+DEFAULT_DELAY = 1.0  
+
+def obter_robots_parser(url_inicial):
+    
     rp = urllib.robotparser.RobotFileParser()
-    robots_url = urljoin(base_url, "/robots.txt")
+    rp.set_url(urljoin(url_inicial, "/robots.txt"))
     try:
-        rp.set_url(robots_url)
         rp.read()
-        return rp
     except:
         return None
+    return rp
 
-def can_fetch(rp, url, user_agent):
+def pode_visitar(rp, url, user_agent):
+    
     if rp is None:
         return True
-    try:
-        return rp.can_fetch(user_agent, url)
-    except:
-        return True
+    return rp.can_fetch(user_agent, url)
 
-def get_crawl_delay(rp, user_agent, default=1.0):
+def obter_delay(rp, user_agent):
+    
     if rp is None:
-        return default
-    try:
-        delay = rp.crawl_delay(user_agent)
-        return delay if delay else default
-    except:
-        return default
+        return DEFAULT_DELAY
+    delay = rp.crawl_delay(user_agent)
+    return delay if delay is not None else DEFAULT_DELAY
 
-def crawler(url_inicial, max_paginas=20):
-    user_agent = "MeuCrawlerEducacional/1.0 (para fins académicos)"
-    headers = {"User-Agent": user_agent}
+def crawler(url_inicial, max_paginas=20, mesmo_dominio=True):
 
-    dominio_inicial = urlparse(url_inicial).netloc
-    paginas_visitadas = set()
-    fila_urls = deque([url_inicial])          
+    headers = {"User-Agent": USER_AGENT}
+    dominio_original = urlparse(url_inicial).netloc
 
-    resultados = []
-    erros = []
-    grafico = {}
+    # Prepara robots
+    rp = obter_robots_parser(url_inicial)
+    delay = obter_delay(rp, USER_AGENT)
 
-    # Ler robots.txt uma única vez
-    rp = get_robots_parser(url_inicial, user_agent)
-    crawl_delay = get_crawl_delay(rp, user_agent, default=1.5)
+    print(f"Iniciando em: {url_inicial}")
+    print(f"Delay: {delay:.1f}s | Respeita robots.txt: {rp is not None}")
+    print(f"Ficar apenas no domínio {dominio_original}: {mesmo_dominio}\n")
 
-    print(f"Iniciando crawler em: {url_inicial}")
-    print(f"Respeitando delay de ≈ {crawl_delay:.1f}s")
+    visitadas = set()
+    fila = [url_inicial]
+    resultados = []   # lista final no formato pedido
 
-    try:
-        while fila_urls and len(paginas_visitadas) < max_paginas:
-            url_atual = fila_urls.popleft()
+    while fila and len(visitadas) < max_paginas:
+        url_atual = fila.pop(0)   # FIFO simples
 
-            if url_atual in paginas_visitadas:
-                continue
+        if url_atual in visitadas:
+            continue
 
-            # Filtro importante: manter no mesmo domínio 
-            if urlparse(url_atual).netloc != dominio_inicial:
-                continue
+        # (Opcional) não sair do domínio inicial
+        if mesmo_dominio and urlparse(url_atual).netloc != dominio_original:
+            continue
 
-            paginas_visitadas.add(url_atual)
+        if not pode_visitar(rp, url_atual, USER_AGENT):
+            print(f"[Bloqueado robots.txt] {url_atual}")
+            continue
 
-            print(f"[{len(paginas_visitadas)}/{max_paginas}] → {url_atual}")
+        print(f"[{len(visitadas)+1}/{max_paginas}]: {url_atual}")
 
-            if not can_fetch(rp, url_atual, user_agent):
-                print(f"  Bloqueado pelo robots.txt")
-                continue
+        try:
+            resp = requests.get(url_atual, headers=headers, timeout=8)
+            resp.raise_for_status()
+        except Exception as e:
+            print(f"  Erro: {e}")
+            continue
 
-            try:
-                response = requests.get(url_atual, headers=headers, timeout=8)
-                response.raise_for_status()
+        
+        soup = BeautifulSoup(resp.text, "html.parser")
+        titulo = soup.title.string.strip() if soup.title and soup.title.string else "Sem título"
 
-                soup = BeautifulSoup(response.text, 'html.parser')
+        
+        links = []
+        for tag_a in soup.find_all("a", href=True):
+            url_completa = urljoin(url_atual, tag_a["href"])
+            if url_completa.startswith(("http://", "https://")):
+                links.append(url_completa)
+                
+                if url_completa not in visitadas and url_completa not in fila:
+                    if not mesmo_dominio or urlparse(url_completa).netloc == dominio_original:
+                        fila.append(url_completa)
 
-                titulo = soup.title.string.strip() if soup.title and soup.title.string else "Sem título"
+        
+        resultados.append({
+            "url": url_atual,
+            "titulo": titulo,
+            "links": links
+        })
 
-                links = []
-                for a in soup.find_all('a', href=True):
-                    full_url = urljoin(url_atual, a['href'])
-                    if full_url.startswith(('http://', 'https://')):
-                        links.append(full_url)
-                        if (full_url not in paginas_visitadas and 
-                            full_url not in fila_urls and
-                            urlparse(full_url).netloc == dominio_inicial):
-                            fila_urls.append(full_url)
+        visitadas.add(url_atual)
+        time.sleep(delay)   
 
-                # Guardar no gráfico
-                grafico[url_atual] = links[:50]   # limitar para não ficar gigante
-
-                resultados.append({
-                    "url": url_atual,
-                    "titulo": titulo,
-                    "total_links": len(links),
-                    "links": links[:30]   # guardar só os primeiros 30 para o JSON não explodir
-                })
-
-            except requests.exceptions.RequestException as e:
-                erros.append({"url": url_atual, "erro": str(e)})
-
-            # Delay respeitando robots.txt + aleatoriedade
-            time.sleep(crawl_delay + random.uniform(0.5, 1.5))
-
-    except KeyboardInterrupt:
-        print("\n\nInterrompido pelo utilizador. Guardando dados...")
-
-    # ==================== Guardar resultados ====================
-    pasta = os.path.join(os.path.dirname(__file__), dominio_inicial.replace(".", "_"))
-    os.makedirs(pasta, exist_ok=True)
-
-    with open(os.path.join(pasta, "resultados.json"), "w", encoding="utf-8") as f:
+    
+    with open("crawler_resultados.json", "w", encoding="utf-8") as f:
         json.dump(resultados, f, ensure_ascii=False, indent=2)
 
-    with open(os.path.join(pasta, "erros.json"), "w", encoding="utf-8") as f:
-        json.dump(erros, f, ensure_ascii=False, indent=2)
+    print(f"\nConcluído! {len(resultados)} páginas guardadas em crawler_resultados.json")
+    return resultados
 
-    with open(os.path.join(pasta, "grafico_navegacao.json"), "w", encoding="utf-8") as f:
-        json.dump(grafico, f, ensure_ascii=False, indent=2)
-
-    print(f"\nCrawler finalizado! {len(resultados)} páginas guardadas em:")
-    print(f"   → {pasta}")
-
+# Exemplo de execução
 if __name__ == "__main__":
     url = input("URL inicial (ex: https://quotes.toscrape.com): ").strip()
     if not url.startswith("http"):
         url = "https://" + url
-
-    max_p = input("Número máximo de páginas (ex: 30): ").strip()
-    max_paginas = int(max_p) if max_p.isdigit() else 20
-
-    crawler(url, max_paginas)
+    max_pag = input("Máximo de páginas (ex: 20): ").strip()
+    max_pag = int(max_pag) if max_pag.isdigit() else 20
+    crawler(url, max_pag, mesmo_dominio=True)
