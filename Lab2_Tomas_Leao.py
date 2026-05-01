@@ -103,12 +103,3 @@ def crawler(url_inicial, max_paginas=20, mesmo_dominio=True):
 
     print(f"\nConcluído! {len(resultados)} páginas guardadas em crawler_resultados.json")
     return resultados
-
-# Exemplo de execução
-if __name__ == "__main__":
-    url = input("URL inicial (ex: https://quotes.toscrape.com): ").strip()
-    if not url.startswith("http"):
-        url = "https://" + url
-    max_pag = input("Máximo de páginas (ex: 20): ").strip()
-    max_pag = int(max_pag) if max_pag.isdigit() else 20
-    crawler(url, max_pag, mesmo_dominio=True)
